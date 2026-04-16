@@ -13,6 +13,9 @@
  * Несколько калькуляторов на одной странице: скрипты калькуляторов вызывают initTildaCalcFormBridgeOnce()
  * (один раз на страницу). Перед submitTildaCalcLead калькулятор выставляет window.__tildaCalcLastRoot,
  * чтобы onSuccess показал #success-page внутри нужного блока.
+ *
+ * closeTildaPopupOnSuccess: true — после успешной отправки закрыть попап Тильды (клик по .t-popup__close),
+ * удобно, если включено системное окно «данные отправлены» и не нужен экран #success-page внутри попапа.
  */
 (function (window, $) {
   'use strict';
@@ -29,7 +32,14 @@
     prependSubjectToText: true,
     onSuccess: null,
     /** true — предупреждения в консоль, если поле с таким name не найдено в форме */
-    debug: false
+    debug: false,
+    /**
+     * true — после tildaform:aftersuccess закрыть открытый попап Тильды (см. .t-popup_show .t-popup__close).
+     * Если false — только переключение #contact-page / #success-page внутри калькулятора (как раньше).
+     */
+    closeTildaPopupOnSuccess: false,
+    /** Задержка перед закрытием попапа (мс), чтобы успела показаться системная подсказка Тильды */
+    closeTildaPopupDelayMs: 300
   };
 
   function mergedCfg() {
@@ -158,13 +168,35 @@
    */
   window.__tildaCalcLastRoot = window.__tildaCalcLastRoot || null;
 
+  function closeTildaPopupLayer() {
+    var closeBtn = document.querySelector('.t-popup_show .t-popup__close');
+    if (closeBtn) {
+      closeBtn.click();
+      return;
+    }
+    if (typeof $ !== 'undefined' && $.fn) {
+      var $c = $('.t-popup_show .t-popup__close').first();
+      if ($c.length) {
+        $c.trigger('click');
+      }
+    }
+  }
+
   function initTildaCalcFormBridgeOnce() {
     if (window.__tildaCalcFormBridgeOnce) return;
     window.__tildaCalcFormBridgeOnce = true;
     initTildaCalcFormBridge({
       onSuccess: function () {
+        var cfg = mergedCfg();
         var r = window.__tildaCalcLastRoot;
-        if (r && r.length) {
+
+        if (cfg.closeTildaPopupOnSuccess) {
+          if (r && r.length) {
+            r.find('#contact-page').hide();
+          }
+          var delay = typeof cfg.closeTildaPopupDelayMs === 'number' ? cfg.closeTildaPopupDelayMs : 300;
+          window.setTimeout(closeTildaPopupLayer, delay);
+        } else if (r && r.length) {
           r.find('#contact-page').hide();
           r.find('#success-page').show();
         }
@@ -173,6 +205,7 @@
     });
   }
 
+  window.closeTildaCalcPopupLayer = closeTildaPopupLayer;
   window.submitTildaCalcLead = submitTildaCalcLead;
   window.initTildaCalcFormBridge = initTildaCalcFormBridge;
   window.initTildaCalcFormBridgeOnce = initTildaCalcFormBridgeOnce;
