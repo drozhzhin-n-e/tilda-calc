@@ -147,6 +147,8 @@
             $q('.calc-color-option').first().click();
 
             $q('#success-page').hide();
+            $q('#contact-page').hide();
+            $q('#results-page').hide();
             $q('#calculator-page').show();
         }
 

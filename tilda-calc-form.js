@@ -39,7 +39,12 @@
      */
     closeTildaPopupOnSuccess: false,
     /** Задержка перед закрытием попапа (мс), чтобы успела показаться системная подсказка Тильды */
-    closeTildaPopupDelayMs: 300
+    closeTildaPopupDelayMs: 300,
+    /**
+     * true — при закрытии попапа Тильды сбрасывать все смонтированные калькуляторы (шаг 1 / форма / успех).
+     * Иначе при повторном открытии попапа остаётся «финальный» экран.
+     */
+    resetCalculatorsOnPopupClose: true
   };
 
   function mergedCfg() {
@@ -182,6 +187,54 @@
     }
   }
 
+  function resetAllTildaCalculators() {
+    var T = window.TildaCalc;
+    if (!T) return;
+    ['rail', 'hookon', 'clipin'].forEach(function (key) {
+      var api = T[key];
+      if (api && typeof api.resetCalculator === 'function') {
+        try {
+          api.resetCalculator();
+        } catch (e) { /* noop */ }
+      }
+    });
+  }
+
+  function bindCalculatorsResetOnTildaPopupClose() {
+    if (window.__tildaCalcPopupResetBound) return;
+    window.__tildaCalcPopupResetBound = true;
+
+    function runIfEnabled() {
+      var c = mergedCfg();
+      if (c.resetCalculatorsOnPopupClose === false) return;
+      resetAllTildaCalculators();
+    }
+
+    if (typeof $ !== 'undefined' && $.fn) {
+      $(document).on('click', '.t-popup__close', function () {
+        window.setTimeout(runIfEnabled, 450);
+      });
+    }
+
+    window.addEventListener('hashchange', function () {
+      if (!/#popup/i.test(location.hash || '')) {
+        window.setTimeout(runIfEnabled, 150);
+      }
+    });
+
+    if (typeof MutationObserver !== 'undefined' && document.body) {
+      var hadPopup = document.body.classList.contains('t-popup_show');
+      var mo = new MutationObserver(function () {
+        var has = document.body.classList.contains('t-popup_show');
+        if (hadPopup && !has) {
+          window.setTimeout(runIfEnabled, 100);
+        }
+        hadPopup = has;
+      });
+      mo.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    }
+  }
+
   function initTildaCalcFormBridgeOnce() {
     if (window.__tildaCalcFormBridgeOnce) return;
     window.__tildaCalcFormBridgeOnce = true;
@@ -191,9 +244,7 @@
         var r = window.__tildaCalcLastRoot;
 
         if (cfg.closeTildaPopupOnSuccess) {
-          if (r && r.length) {
-            r.find('#contact-page').hide();
-          }
+          resetAllTildaCalculators();
           var delay = typeof cfg.closeTildaPopupDelayMs === 'number' ? cfg.closeTildaPopupDelayMs : 300;
           window.setTimeout(closeTildaPopupLayer, delay);
         } else if (r && r.length) {
@@ -206,7 +257,12 @@
   }
 
   window.closeTildaCalcPopupLayer = closeTildaPopupLayer;
+  window.resetAllTildaCalculators = resetAllTildaCalculators;
   window.submitTildaCalcLead = submitTildaCalcLead;
   window.initTildaCalcFormBridge = initTildaCalcFormBridge;
   window.initTildaCalcFormBridgeOnce = initTildaCalcFormBridgeOnce;
+
+  $(function () {
+    window.setTimeout(bindCalculatorsResetOnTildaPopupClose, 0);
+  });
 })(window, jQuery);
