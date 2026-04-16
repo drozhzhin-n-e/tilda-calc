@@ -27,7 +27,9 @@
     },
     /** Если отдельного поля Subject в форме нет — тема добавляется в начало многострочного текста */
     prependSubjectToText: true,
-    onSuccess: null
+    onSuccess: null,
+    /** true — предупреждения в консоль, если поле с таким name не найдено в форме */
+    debug: false
   };
 
   function mergedCfg() {
@@ -40,15 +42,28 @@
       console.warn('[tilda-calc-form] Задайте window.TILDA_CALC_FORM.formSelector (id формы).');
       return $();
     }
-    return $(c.formSelector);
+    var $el = $(c.formSelector);
+    if (!$el.length) return $();
+    if ($el.is('form')) return $el;
+    var $inner = $el.find('form').first();
+    if ($inner.length) return $inner;
+    return $el;
   }
 
   function setVal($f, fieldName, value) {
     if (!fieldName) return;
     if (value === undefined || value === null) value = '';
     var $el = $f.find('[name="' + fieldName + '"]');
+    if (!$el.length) {
+      $el = $f.find('input, textarea, select').filter(function () {
+        var n = $(this).attr('name');
+        return n && String(n).toLowerCase() === String(fieldName).toLowerCase();
+      });
+    }
     if ($el.length) {
       $el.val(value);
+    } else if (mergedCfg().debug) {
+      console.warn('[tilda-calc-form] Поле с name="' + fieldName + '" не найдено внутри формы. Проверьте Variable name в блоке формы и TILDA_CALC_FORM.fields.');
     }
   }
 
@@ -120,7 +135,8 @@
     var c = mergedCfg();
     if (!c.formSelector) return;
 
-    var formEl = $(c.formSelector)[0];
+    var $fe = $form();
+    var formEl = $fe[0];
     if (!formEl) {
       console.warn('[tilda-calc-form] Форма не найдена при init. Проверьте formSelector после публикации.');
       return;
