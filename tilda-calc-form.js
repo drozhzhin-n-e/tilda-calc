@@ -9,6 +9,10 @@
  * 5) Включите AJAX-отправку формы в настройках блока, чтобы страница не перезагружалась.
  *
  * Подключение: Site settings → Подключить jQuery → затем этот файл → затем скрипт калькулятора.
+ *
+ * Несколько калькуляторов на одной странице: скрипты калькуляторов вызывают initTildaCalcFormBridgeOnce()
+ * (один раз на страницу). Перед submitTildaCalcLead калькулятор выставляет window.__tildaCalcLastRoot,
+ * чтобы onSuccess показал #success-page внутри нужного блока.
  */
 (function (window, $) {
   'use strict';
@@ -132,6 +136,28 @@
     });
   }
 
+  /**
+   * Перед submitTildaCalcLead установите window.__tildaCalcLastRoot = $root (jQuery),
+   * чтобы после успешной отправки формы показать #success-page внутри нужного калькулятора.
+   */
+  window.__tildaCalcLastRoot = window.__tildaCalcLastRoot || null;
+
+  function initTildaCalcFormBridgeOnce() {
+    if (window.__tildaCalcFormBridgeOnce) return;
+    window.__tildaCalcFormBridgeOnce = true;
+    initTildaCalcFormBridge({
+      onSuccess: function () {
+        var r = window.__tildaCalcLastRoot;
+        if (r && r.length) {
+          r.find('#contact-page').hide();
+          r.find('#success-page').show();
+        }
+        window.__tildaCalcLastRoot = null;
+      }
+    });
+  }
+
   window.submitTildaCalcLead = submitTildaCalcLead;
   window.initTildaCalcFormBridge = initTildaCalcFormBridge;
+  window.initTildaCalcFormBridgeOnce = initTildaCalcFormBridgeOnce;
 })(window, jQuery);
