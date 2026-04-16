@@ -200,6 +200,7 @@
 
         $q('.calc-color-option').first().addClass('calc-selected');
 
+        /* MULTI: снимаем только inline, вызывающие несуществующие глобалы (selectColor…); onclick с TildaCalc.* не трогаем. */
         if (window.TILDA_CALC_MULTI_MODE) {
             $root.find('.calc-color-option').each(function () {
                 var oc = this.getAttribute('onclick');
@@ -219,6 +220,35 @@
             $root.off('focus.tildaCalcCustomColor').on('focus.tildaCalcCustomColor', '#customColor', function () {
                 deselectColors();
             });
+
+            (function bindLegacyOnclick() {
+                var pairs = [
+                    { re: /^calculateCeiling\s*\(\s*\)$/i, fn: calculateCeiling },
+                    { re: /^goToContactPage\s*\(\s*\)$/i, fn: goToContactPage },
+                    { re: /^goBackToCalculator\s*\(\s*\)$/i, fn: goBackToCalculator },
+                    { re: /^goBackToResults\s*\(\s*\)$/i, fn: goBackToResults },
+                    { re: /^resetCalculator\s*\(\s*\)$/i, fn: resetCalculator },
+                    { re: /^sendToMail\s*\(\s*\)$/i, fn: sendToEmail },
+                    { re: /^sendToEmail\s*\(\s*\)$/i, fn: sendToEmail }
+                ];
+                $root.find('[onclick]').each(function () {
+                    var el = this;
+                    var oc = (el.getAttribute('onclick') || '').replace(/\s+/g, ' ').trim();
+                    var j;
+                    for (j = 0; j < pairs.length; j++) {
+                        if (pairs[j].re.test(oc)) {
+                            el.removeAttribute('onclick');
+                            (function (handler) {
+                                $(el).off('click.tildaCalcLegacy').on('click.tildaCalcLegacy', function (e) {
+                                    e.preventDefault();
+                                    handler();
+                                });
+                            })(pairs[j].fn);
+                            return;
+                        }
+                    }
+                });
+            })();
         }
 
         var api = {
