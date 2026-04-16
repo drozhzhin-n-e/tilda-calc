@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600&display=swap");
 
-:root {
-    --bg: #2f2733;
+/* Переменные на контейнере, не на :root — иначе пересекаются с глобальными --* сайта (Tilda и т.д.). */
+.calc-calcmain {
+    --bg: #2E252C;
     --bg-soft: #352d39;
     --text: #f0ece6;
     --text-muted: #c9c2bc;
@@ -14,9 +15,7 @@
     --btn-fill-hover: #d0c3b1;
     --btn-text: #2f2733;
     --btn-outline: #bdb2c4;
-}
 
-.calc-calcmain {
     width: 100%;
     max-width: 1180px;
     margin: 0 auto;
