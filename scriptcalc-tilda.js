@@ -200,6 +200,27 @@
 
         $q('.calc-color-option').first().addClass('calc-selected');
 
+        if (window.TILDA_CALC_MULTI_MODE) {
+            $root.find('.calc-color-option').each(function () {
+                var oc = this.getAttribute('onclick');
+                if (oc && /selectColor\s*\(/i.test(oc)) {
+                    this.removeAttribute('onclick');
+                }
+            });
+            $root.find('#customColor').each(function () {
+                var of = this.getAttribute('onfocus');
+                if (of && /deselectColors\s*\(/i.test(of)) {
+                    this.removeAttribute('onfocus');
+                }
+            });
+            $root.off('click.tildaCalcColor').on('click.tildaCalcColor', '.calc-color-option', function () {
+                selectColor(this);
+            });
+            $root.off('focus.tildaCalcCustomColor').on('focus.tildaCalcCustomColor', '#customColor', function () {
+                deselectColors();
+            });
+        }
+
         var api = {
             calculateCeiling: calculateCeiling,
             selectColor: selectColor,
