@@ -139,6 +139,7 @@
             $q('#clientName').val('');
             $q('#clientPhone').val('');
             $q('#customColor').val('');
+            $q('#consentCheckbox').prop('checked', false);
 
             $q('.calc-color-option').removeClass('calc-selected');
             $q('.calc-color-option').first().addClass('calc-selected');
@@ -155,6 +156,7 @@
             var selectedColor = $q('.calc-color-option.calc-selected').data('color');
             var customColor = $q('#customColor').val();
             var finalColor = customColor || selectedColor;
+            var $consent = $q('#consentCheckbox');
 
             if (!finalColor) {
                 alert('Пожалуйста, выберите цвет кассеты или укажите свой вариант');
@@ -163,6 +165,11 @@
 
             if (!name || !phone) {
                 alert('Пожалуйста, заполните имя и телефон');
+                return;
+            }
+
+            if ($consent.length && !$consent.is(':checked')) {
+                alert('Подтвердите согласие на обработку персональных данных.');
                 return;
             }
 

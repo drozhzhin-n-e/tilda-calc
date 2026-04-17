@@ -897,3 +897,26 @@
     clip: rect(0 0 0 0) !important;
     clip-path: inset(50%) !important;
 }
+
+.calc-calcmain .calc-consent-row {
+    margin: 10px 0 14px;
+}
+
+.calc-calcmain .calc-consent-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    line-height: 1.35;
+    color: var(--text-muted);
+}
+
+.calc-calcmain .calc-consent-label input[type="checkbox"] {
+    margin-top: 2px;
+    flex: 0 0 auto;
+}
+
+.calc-calcmain .calc-consent-label a {
+    color: var(--title-accent);
+    text-decoration: underline;
+}

@@ -144,6 +144,7 @@
             $q('#clientName').val('');
             $q('#clientPhone').val('');
             $q('#customColor').val('');
+            $q('#consentCheckbox').prop('checked', false);
             $q('.calc-color-option').first().click();
 
             $q('#success-page').hide();
@@ -158,6 +159,7 @@
             var selectedColor = $q('.calc-color-option.calc-selected').data('color');
             var customColor = $q('#customColor').val();
             var finalColor = customColor || selectedColor;
+            var $consent = $q('#consentCheckbox');
 
             if (!finalColor) {
                 alert('Пожалуйста, выберите цвет рейки или укажите свой вариант');
@@ -166,6 +168,11 @@
 
             if (!name || !phone) {
                 alert('Пожалуйста, заполните имя и телефон');
+                return;
+            }
+
+            if ($consent.length && !$consent.is(':checked')) {
+                alert('Подтвердите согласие на обработку персональных данных.');
                 return;
             }
 
