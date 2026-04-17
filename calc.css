@@ -899,21 +899,49 @@
 }
 
 .calc-calcmain .calc-consent-row {
-    margin: 10px 0 14px;
+    margin: 10px 0 18px;
 }
 
 .calc-calcmain .calc-consent-label {
-    display: flex;
-    align-items: flex-start;
+    display: inline-flex;
+    align-items: center;
     gap: 8px;
     font-size: 12px;
     line-height: 1.35;
     color: var(--text-muted);
+    cursor: pointer;
 }
 
 .calc-calcmain .calc-consent-label input[type="checkbox"] {
-    margin-top: 2px;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    border: 1px solid var(--btn-outline);
+    background: transparent;
+    border-radius: 2px;
+    margin: 0;
     flex: 0 0 auto;
+    position: relative;
+    cursor: pointer;
+}
+
+.calc-calcmain .calc-consent-label input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 4px;
+    height: 8px;
+    border: solid var(--title-accent);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.calc-calcmain .calc-consent-label span {
+    display: inline;
+    vertical-align: middle;
 }
 
 .calc-calcmain .calc-consent-label a {
