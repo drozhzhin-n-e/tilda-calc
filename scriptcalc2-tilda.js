@@ -83,7 +83,7 @@
                 hasPerimeter: hasPerimeter
             };
 
-            var cassetteName = 'Потолочная кассета KIT HOOKON-ST ' + cassetteLength + '×' + cassetteWidth + ' мм';
+            var cassetteName = 'Панель Basman Hook-On ' + cassetteLength + 'x' + cassetteWidth + ' мм, ТИП А, Zn, Th=0,7мм, RAL 9010(порошковая покраска)';
             $q('#cassetteName').text(cassetteName);
 
             $q('#cassetteCount').text(cassetteCount);
@@ -173,7 +173,7 @@
                 return;
             }
 
-            var message = 'Новая заявка на кассетный потолок HOOK ON\n\nКлиент: ' + name + '\nТелефон: ' + phone + '\nЦвет: ' + finalColor + '\n\nПараметры помещения:\nПлощадь: ' + calculationData.area + ' м²\nПериметр: ' + calculationData.perimeter + ' м.п.\n\nПараметры кассеты:\nРазмер: ' + calculationData.cassetteLength + '×' + calculationData.cassetteWidth + ' мм\nЗапас материалов: ' + Math.round((calculationData.stockPercent - 1) * 100) + '%\n\nРасчет материалов (с учетом запаса):\nПотолочная кассета KIT HOOKON-ST ' + calculationData.cassetteLength + '×' + calculationData.cassetteWidth + ' мм: ' + calculationData.cassetteCount + ' шт.\nПрофиль подсистемы Z-Типа L=3000мм, оц. сталь: ' + calculationData.zProfileCount + ' шт.\nУголок перфорированный L=3000мм, 30х30мм, оц. сталь: ' + calculationData.perfAngleCount + ' шт.';
+            var message = 'Новая заявка на кассетный потолок HOOK ON\n\nКлиент: ' + name + '\nТелефон: ' + phone + '\nЦвет: ' + finalColor + '\n\nПараметры помещения:\nПлощадь: ' + calculationData.area + ' м²\nПериметр: ' + calculationData.perimeter + ' м.п.\n\nПараметры кассеты:\nРазмер: ' + calculationData.cassetteLength + '×' + calculationData.cassetteWidth + ' мм\nЗапас материалов: ' + Math.round((calculationData.stockPercent - 1) * 100) + '%\n\nРасчет материалов (с учетом запаса):\nПанель Basman Hook-On ' + calculationData.cassetteLength + 'x' + calculationData.cassetteWidth + ' мм, ТИП А, Zn, Th=0,7мм, RAL 9010(порошковая покраска): ' + calculationData.cassetteCount + ' шт.\nПрофиль Hook On L=3000 мм, Zn, Th=1,0 мм, RAL 000: ' + calculationData.zProfileCount + ' шт.\nУгол перфорированный L=3000мм, Zn, Th=2,00 мм, RAL000, 30х30: ' + calculationData.perfAngleCount + ' шт.';
 
             if (calculationData.hasPerimeter) {
                 message += '\nПристенный уголок 3000мм: ' + calculationData.cornerCount + ' шт.';

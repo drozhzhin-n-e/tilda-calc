@@ -123,7 +123,7 @@
                 hasPerimeter: hasPerimeter
             };
 
-            var cassetteName = 'Кассета потолочная KIT CLIPIN-ST ' + cassetteSizeText;
+            var cassetteName = 'Панель потолочная BASMAN CN Clip-in, ' + cassetteSizeText.replace('×', 'x') + ', Zn, Th=0,5мм RAL 9003 мат порошков. покр.';
             $q('#cassetteName').text(cassetteName);
 
             $q('#cassetteCount').text(cassetteCount);
@@ -215,7 +215,7 @@
                 return;
             }
 
-            var message = 'Новая заявка на кассетный потолок CLIP-IN\n\nКлиент: ' + name + '\nТелефон: ' + phone + '\nЦвет: ' + finalColor + '\n\nПараметры помещения:\nПлощадь: ' + calculationDataClipIn.area + ' м²\nПериметр: ' + calculationDataClipIn.perimeter + ' м.п.\n\nПараметры кассеты:\nГабарит: ' + calculationDataClipIn.cassetteSizeText + '\nЗапас материалов: ' + Math.round((calculationDataClipIn.stockPercent - 1) * 100) + '%\n\nРасчет материалов (с учетом запаса):\nКассета потолочная CLIP-IN ' + calculationDataClipIn.cassetteSizeText + ': ' + calculationDataClipIn.cassetteCount + ' шт.\nСтрингер L=4000мм: ' + calculationDataClipIn.stringerCount + ' шт.\nПоперечный профиль L=4000мм: ' + calculationDataClipIn.crossProfileCount + ' шт.\nДвухуровневый соединитель: ' + calculationDataClipIn.connectorCount + ' шт.';
+            var message = 'Новая заявка на кассетный потолок CLIP-IN\n\nКлиент: ' + name + '\nТелефон: ' + phone + '\nЦвет: ' + finalColor + '\n\nПараметры помещения:\nПлощадь: ' + calculationDataClipIn.area + ' м²\nПериметр: ' + calculationDataClipIn.perimeter + ' м.п.\n\nПараметры кассеты:\nГабарит: ' + calculationDataClipIn.cassetteSizeText + '\nЗапас материалов: ' + Math.round((calculationDataClipIn.stockPercent - 1) * 100) + '%\n\nРасчет материалов (с учетом запаса):\nПанель потолочная BASMAN CN Clip-in, ' + calculationDataClipIn.cassetteSizeText.replace('×', 'x') + ', Zn, Th=0,5мм RAL 9003 мат порошков. покр.: ' + calculationDataClipIn.cassetteCount + ' шт.\nСтрингер L=4000мм: ' + calculationDataClipIn.stringerCount + ' шт.\nПоперечный профиль L=4000мм: ' + calculationDataClipIn.crossProfileCount + ' шт.\nДвухуровневый соединитель: ' + calculationDataClipIn.connectorCount + ' шт.';
 
             if (calculationDataClipIn.hasPerimeter) {
                 message += '\nПристенный уголок 3000мм: ' + calculationDataClipIn.cornerCount + ' шт.';

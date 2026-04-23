@@ -87,7 +87,7 @@
                 hasPerimeter: hasPerimeter
             };
 
-            var railSystemName = 'Реечная система KIT BX-ST ' + railLength + '*' + railWidth + '*' + railHeight + ' мм. Шаг между рейками ' + railStep + ' мм';
+            var railSystemName = 'Рейка Basman BS-1 ' + railWidth + 'х' + railHeight + ' (ш+в) L=' + railLength + 'мм Zn, Th=0,45мм';
             $q('#railSystemName').text(railSystemName);
 
             $q('#railCount').text(railCount);
@@ -176,7 +176,7 @@
                 return;
             }
 
-            var message = 'Новая заявка на реечный потолок KIT BX-ST\n\nКлиент: ' + name + '\nТелефон: ' + phone + '\nЦвет: ' + finalColor + '\n\nПараметры помещения:\nПлощадь: ' + calculationData.area + ' м²\nПериметр: ' + calculationData.perimeter + ' м.п.\n\nПараметры рейки:\nШирина: ' + calculationData.railWidth + ' мм\nВысота: ' + calculationData.railHeight + ' мм\nШаг: ' + calculationData.railStep + ' мм\nДлина: ' + calculationData.railLength + ' мм\nЗапас: ' + Math.round((calculationData.stockPercent - 1) * 100) + '%\n\nРасчет материалов:\nРеечная система KIT BX-ST ' + calculationData.railLength + '*' + calculationData.railWidth + '*' + calculationData.railHeight + ' мм: ' + calculationData.railCount + ' шт. (' + calculationData.railMeters + ' м.п.)\nГребенка L=3000мм, оц. сталь, RAL 9005: ' + calculationData.grebCount + ' шт.';
+            var message = 'Новая заявка на реечный потолок KIT BX-ST\n\nКлиент: ' + name + '\nТелефон: ' + phone + '\nЦвет: ' + finalColor + '\n\nПараметры помещения:\nПлощадь: ' + calculationData.area + ' м²\nПериметр: ' + calculationData.perimeter + ' м.п.\n\nПараметры рейки:\nШирина: ' + calculationData.railWidth + ' мм\nВысота: ' + calculationData.railHeight + ' мм\nШаг: ' + calculationData.railStep + ' мм\nДлина: ' + calculationData.railLength + ' мм\nЗапас: ' + Math.round((calculationData.stockPercent - 1) * 100) + '%\n\nРасчет материалов:\nРейка Basman BS-1 ' + calculationData.railWidth + 'х' + calculationData.railHeight + ' (ш+в) L=' + calculationData.railLength + 'мм Zn, Th=0,45мм: ' + calculationData.railCount + ' шт. (' + calculationData.railMeters + ' м.п.)\nГребенка Basman BS-1-50-100, L=3000мм , Zn, Th=0,7мм RAL 9005 (между краями реек 50мм): ' + calculationData.grebCount + ' шт.';
 
             if (calculationData.hasPerimeter) {
                 message += '\nПристенный уголок: ' + calculationData.cornerCount + ' шт.';
